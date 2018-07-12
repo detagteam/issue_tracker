@@ -1,0 +1,14 @@
+{
+  "name": "issue_tracker",
+  "version": "1.0.0",
+  "description": "Tracks and close your issue with efficiency",
+  "main": "./app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Subinoy Ghosh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
