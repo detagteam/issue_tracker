@@ -1,9 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Issue Tracker</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" ></script>
     </head>
     <body>
-        Inside the login page
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/index">Issue Logger</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#stdNavbar">
+                        <span class="navbar-toggler-icon"></span> 
+                </button>
+                <div class="collapse navbar-collapse" id="stdNavbar">
+                    <ul class="navbar-nav">
+                        <li class="active nav-itam"><a href="#" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Issues</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Documentation</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container" style="margin-top:34px;padding-left:75px;padding-right:75px;">
+            <form>
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter Username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input type="text" id="password" class="form-control" placeholder="Enter Password"/>
+                </div>
+                <div class="form-group form-check">
+                        <label><input type="checkbox" class="form-check-input"> Remember me</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

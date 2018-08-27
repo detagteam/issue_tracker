@@ -9,8 +9,10 @@ gConstants.METHOD_ON_PAGE_ALLOWED = {
 };
 gConstants.BASE_PATH = './src/components';
 gConstants.URL_PATH_MAP = {
-    '/':'/index/index/html',
+    '/':'/index/index.html',
+    '/index':'/index/index.html',
     '/index.html':'/index/index.html',
+    '/login':'/login/login.html',
     '/login.html':'/login/login.html'
 };
 
