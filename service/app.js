@@ -1,4 +1,5 @@
 const CONFIG = require('./config')
+
 const OAUTH_MODEL = require('./model.js')
 const express = require('express'),
     oauthserver = require('oauth2-server'),
@@ -23,6 +24,7 @@ let oauth = new oauthserver({
 //promise returns
 connection.on('error',console.error.bind(console,"connection error: "))
 connection.on('open',function(){
+
     OAUTH_MODEL.model.connection = connection;
     console.log('Connected');
     app.post('/client/add',function(req, res){
@@ -50,3 +52,4 @@ connection.on('open',function(){
 })
 
 app.listen(3000);
+
