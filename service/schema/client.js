@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 var OAuthClientsSchema =  new mongoose.Schema({
   clientId: String,
   clientSecret: String,
-  clientName : String
+  clientName : String,
+  // grant_types : String,
 });
 // Export the Mongoose model
 module.exports = mongoose.model('oauth_client', OAuthClientsSchema,'clients');

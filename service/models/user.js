@@ -1,7 +1,8 @@
 const User = require("../schema/user");
 
+exports.model = User
 // for saving users for method type POST
-User.createUser = function(req, res) {
+exports.createUser = function(req, res) {
     // Create a new instance of the User model
     var user = new User();
   
@@ -22,4 +23,3 @@ User.createUser = function(req, res) {
   };
 
 
-  module.exports = User
