@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const token = require('./token')
 
-exports.model = {
+token.model = {
     connection : {},
     getAccessToken: function() {
       return 'works!';
@@ -56,3 +56,5 @@ exports.model = {
       }
     }
 };
+
+module.exports = token

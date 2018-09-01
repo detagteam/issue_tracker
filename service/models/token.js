@@ -1,4 +1,4 @@
-const Token = require("../models/token");
+const Token = require("../schema/token");
 
 exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,clientId,userId) {
     var token = new Token();
@@ -43,3 +43,5 @@ exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,client
         return token;
     });
   };
+
+  module.exports = Token

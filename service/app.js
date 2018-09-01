@@ -1,10 +1,10 @@
 const CONFIG = require('./config')
 
-const OAUTH_MODEL = require('./model.js')
 const express = require('express'),
+    OAUTH_MODEL = require('./models/oauth'),
     oauthserver = require('oauth2-server'),
-    clients = require('./client'),
-    users = require('./user'),
+    clients = require('./models/client'),
+    users = require('./models/user'),
     mongooose = require('mongoose');
 
 var app = express();
@@ -17,7 +17,7 @@ var connection = mongooose.connection
 // setting parameters to oauth2
 let oauth = new oauthserver({
     model: OAUTH_MODEL.model,
-    grants : ['password'],
+    grants : ['password','refresh_token'],
     debug: true
 });
 
@@ -40,7 +40,7 @@ connection.on('open',function(){
     });
 
     app.post('/oauth/token',function(req,res){
-        OAUTH_MODEL.model.getClient(req,res);
+        
         res.send({message: "requested for oauth! I am working on this"});
     });
 
