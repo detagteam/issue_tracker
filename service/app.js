@@ -1,5 +1,10 @@
 const CONFIG = require('./config')
 
+var mongooose = require('mongoose')
+
+mongooose.connect(CONFIG.CONSTANTS.connectionString)
+const connection = mongooose.connection
+
 const express = require('express'),
     oauthserver = require('oauth2-server'),
     oauth = require('./components/oauthDriver'),
@@ -30,7 +35,6 @@ mongooose.connect(CONFIG.CONSTANTS.connectionString)
 var connection = mongooose.connection
 
 // setting parameters to oauth2
-
 
 
 
@@ -81,4 +85,3 @@ connection.on('open',function(){
 })
 
 app.listen(3000);
-
