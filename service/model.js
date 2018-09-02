@@ -17,11 +17,12 @@ exports.model = {
         params.client_secret = clientSecret;
       }
       this.connection.db.collection('Client', function(err, collection){
-          collection.find(params).then(function(err, result) {
+          collection.find(params).toArray(function(err, result) {
               if (err) throw err;
+              console.log('### getClient ###');
               console.log(result);
               return {
-                id: result.client_id,
+                id: result[0].client_id,
                 grants: ['password']
               };
           });
@@ -36,7 +37,7 @@ exports.model = {
       this.connection.db.collection('User',function(err, collection){
         collection.find(params).then(function(err,result){
           if(err) throw err;
-          return result;
+          return result[0];
         });
       });
       return 'works!';
