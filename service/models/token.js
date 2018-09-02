@@ -7,8 +7,8 @@ exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,client
     token.accessToken = accessToken;
     token.expiresAt = expiresAt;
     token.scope = scope;
-    token.clientId = clientId;
-    token.userId = userId;
+    token.client = clientId;
+    token.user = userId;
 
     console.log('AccessToken');
     console.log(token);
@@ -30,8 +30,8 @@ exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,client
     token.refreshToken = refreshToken;
     token.expiresAt = expiresAt;
     token.scope = scope;
-    token.clientId = clientId;
-    token.userId = userId;
+    token.client = clientId;
+    token.user = userId;
 
     console.log('RefreshToken');
     console.log(token);
