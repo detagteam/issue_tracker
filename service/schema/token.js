@@ -7,9 +7,9 @@ var TokenSchema = new mongoose.Schema({
     expiresAt: { type: Date },
     scope: { type: String },
     client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-    clientId: { type: String, unique: true },
+    // clientId: { type: String, unique: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    userId: { type: String }
+    // userId: { type: String }
 });
 
 // Export the Mongoose model

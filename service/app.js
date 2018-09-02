@@ -1,8 +1,9 @@
 const CONFIG = require('./config')
 
 const express = require('express'),
-    OAUTH_MODEL = require('./models/oauth'),
     oauthserver = require('oauth2-server'),
+    oauth = require('./components/oauthDriver'),
+    authenticate = require('./middleware/authenticate')
     clients = require('./models/client'),
     users = require('./models/user'),
     mongooose = require('mongoose'),
@@ -13,11 +14,11 @@ const Request = oauthserver.Request,
 
 var app = express();
 
-let oauth = new oauthserver({
-    model: OAUTH_MODEL.model,
-    grants : ['password','refresh_token'],
-    debug: true
-});
+// let oauth = new oauthserver({
+//     model: OAUTH_MODEL.model,
+//     grants : ['password','refresh_token'],
+//     debug: true
+// });
 
 
 app.use(bodyParser.json());
@@ -38,7 +39,7 @@ var connection = mongooose.connection
 connection.on('error',console.error.bind(console,"connection error: "))
 connection.on('open',function(){
 
-    OAUTH_MODEL.model.connection = connection;
+    // OAUTH_MODEL.model.connection = connection;
     console.log('Connected');
     app.post('/client/add',function(req, res){
         console.log(req);
@@ -52,10 +53,6 @@ connection.on('open',function(){
         users.postUsers(req,res);
     });
 
-    // app.post('/oauth/token',function(req,res){
-    //     return oauth.token(req,res)
-    //     //res.send({message: "requested for oauth! I am working on this"});
-    // });
     app.all('/oauth/token', function(req,res,next){
         var request = new Request(req);
         var response = new Response(res);
@@ -70,7 +67,11 @@ connection.on('open',function(){
           })
       });
 
-   
+    app.get('/me',authenticate(),function(req,res){
+        res.json({
+            profile : req.user
+        })
+    });
 
     app.post('/client/fetch',function(req,res){
         let result = clients.fetchClient(connection,req.body);

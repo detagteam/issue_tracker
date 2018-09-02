@@ -7,18 +7,46 @@ const connection = mongoose.connection
 
 exports.model = {
     connection : {},
+
+    /** 
+     * Called when authenticating a request using bearer token
+    */
     getAccessToken: function(bearerToken) {
-      return token.model.findOne({accessToken : bearerToken}).lean()
+      return token.model.findOne({accessToken : bearerToken}).populate('user').populate('client').lean().then(function(data){
+        if (!data) {
+          return false;
+        }
+        return {
+          accessToken: data.accessToken,
+          accessTokenExpiresAt: data.expiresAt,
+          scope: data.scope,
+          user : data.user
+        }
+        // return data
+      })
     },
+
+    /*
+      Called during refresh token generation and then call passed on to save token
+    */
     getRefreshToken : function(bearerToken) {
-      return token.model.findOne({refreshToken : bearerToken}).lean()
+      let retrivedToken =  token.model.findOne({refreshToken : bearerToken}).populate('client').populate('user').lean()
+      return retrivedToken.then(function(data){
+        if (!data) {
+          return false;
+        }
+        return JSON.parse(JSON.stringify(data))
+      })
     },
+
+
     getClient: function(clientId, clientSecret) {
       return client.model.findOne({
         clientId: clientId,
         clientSecret : clientSecret
       }).lean()
     },
+    
     getUser: function(username, password) {
       return user.model.findOne({
         username: username,
@@ -72,10 +100,16 @@ exports.model = {
       console.log("Called")
     },
 
+    /*
+      Called only during accessToken and refreshtoken generation
+    */
     
     saveToken: function(receivedToken, client, user) {
-      accessToken = token.saveAccessToken(connection,receivedToken.accessToken,receivedToken.accessTokenExpiresAt,receivedToken.scope,client.id,user._id);
-      refreshToken = token.saveRefreshToken(connection,receivedToken.refreshToken,receivedToken.refreshTokenExpiresAt,receivedToken.scope,client.id,user._id);
+      if (!receivedToken){
+        return false;
+      }
+      accessToken = token.saveAccessToken(connection,receivedToken.accessToken,receivedToken.accessTokenExpiresAt,receivedToken.scope,client._id,user._id);
+      refreshToken = token.saveRefreshToken(connection,receivedToken.refreshToken,receivedToken.refreshTokenExpiresAt,receivedToken.scope,client._id,user._id);
       
       return {
         accessToken: accessToken.accessToken,
@@ -83,8 +117,14 @@ exports.model = {
         refreshToken: refreshToken.refreshToken,
         refreshTokenExpiresAt: refreshToken.expiresAt,
         scope: accessToken.scope,
-        client: {id: accessToken.clientId},
-        user: {id: accessToken.userId}
+        client: {},
+        user: {}
       }
+    },
+    revokeToken : function(receivedToken)
+    {
+      return token.model.deleteOne({
+        refreshToken : receivedToken
+      })
     }
 };
