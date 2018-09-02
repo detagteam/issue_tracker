@@ -10,15 +10,12 @@ exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,client
     token.client = clientId;
     token.user = userId;
 
-    console.log('AccessToken');
-    console.log(token);
-
     token.save(function(err) {
         if (err)
             throw err;
         
-        console.log('AccessTokenSaved!!');
-        console.log(JSON.stringify(token));
+        // console.log('AccessTokenSaved!!');
+        // console.log(JSON.stringify(token));
         return token;
     });
     return token;
@@ -33,15 +30,12 @@ exports.saveAccessToken = function(connection,accessToken,expiresAt,scope,client
     token.client = clientId;
     token.user = userId;
 
-    console.log('RefreshToken');
-    console.log(token);
-
     token.save(function(err) {
     if (err)
         throw err;
 
-        console.log('RefreshTokenSaved!!');
-        console.log(JSON.stringify(token));
+        // console.log('RefreshTokenSaved!!');
+        // console.log(JSON.stringify(token));
         return token;
     });
     return token;

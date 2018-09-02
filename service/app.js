@@ -7,33 +7,19 @@ const express = require('express'),
     clients = require('./models/client'),
     users = require('./models/user'),
     mongooose = require('mongoose'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    oauthError = require('./models/oauth_error.js');
 
 const Request = oauthserver.Request,
       Response = oauthserver.Response;
 
 var app = express();
 
-// let oauth = new oauthserver({
-//     model: OAUTH_MODEL.model,
-//     grants : ['password','refresh_token'],
-//     debug: true
-// });
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-// app.use(app.oauth.authorize())
-
 
 mongooose.connect(CONFIG.CONSTANTS.connectionString)
 var connection = mongooose.connection
-
-// setting parameters to oauth2
-
-
-
-
 
 //promise returns
 connection.on('error',console.error.bind(console,"connection error: "))
@@ -53,21 +39,22 @@ connection.on('open',function(){
         users.postUsers(req,res);
     });
 
-    app.all('/oauth/token', function(req,res,next){
+    app.post('/oauth/token', function(req,res,next){
         var request = new Request(req);
         var response = new Response(res);
-        
+
         oauth
           .token(request,response)
           .then(function(token) {
             // Todo: remove unnecessary values in response
             return res.json(token)
           }).catch(function(err){
-            return res.status(500).json(err)
+            // return res.status(500).json(err);
+            return res.status(500).json(oauthError.setError(err))
           })
       });
 
-    app.get('/me',authenticate(),function(req,res){
+    app.all('/me',authenticate(),function(req,res){
         res.json({
             profile : req.user
         })
