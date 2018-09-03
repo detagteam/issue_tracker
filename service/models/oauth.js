@@ -12,6 +12,7 @@ exports.model = {
      * Called when authenticating a request using bearer token
     */
     getAccessToken: function(bearerToken) {
+      console.log("inside getAccessToken");
       return token.model.findOne({accessToken : bearerToken}).populate('user').populate('client').lean().then(function(data){
         if (!data) {
           return false;
@@ -30,6 +31,7 @@ exports.model = {
       Called during refresh token generation and then call passed on to save token
     */
     getRefreshToken : function(bearerToken) {
+      console.log("inside getRefreshToken");
       let retrivedToken =  token.model.findOne({refreshToken : bearerToken}).populate('client').populate('user').lean()
       return retrivedToken.then(function(data){
         if (!data) {
@@ -53,45 +55,6 @@ exports.model = {
         password : password
       }).lean();
     },
-
-    /*
-
-    saveToken : function(token, client, user) {
-      var accessToken = new token({
-        accessToken: token.accessToken,
-        accessTokenExpiresOn: token.accessTokenExpiresOn,
-        client : client,
-        clientId: client.clientId,
-        refreshToken: token.refreshToken,
-        refreshTokenExpiresOn: token.refreshTokenExpiresOn,
-        user : user,
-        userId: user._id,
-      });
-      // Can't just chain `lean()` to `save()` as we did with `findOne()` elsewhere. Instead we use `Promise` to resolve the data.
-      return new Promise( function(resolve,reject){
-        accessToken.save(function(err,data){
-          if( err ) reject( err );
-          else resolve( data );
-        }) ;
-      }).then(function(saveResult){
-        // `saveResult` is mongoose wrapper object, not doc itself. Calling `toJSON()` returns the doc.
-        saveResult = saveResult && typeof saveResult == 'object' ? saveResult.toJSON() : saveResult;
-        
-        // Unsure what else points to `saveResult` in oauth2-server, making copy to be safe
-        var data = new Object();
-        for( var prop in saveResult ) data[prop] = saveResult[prop];
-        
-        // /oauth-server/lib/models/token-model.js complains if missing `client` and `user`. Creating missing properties.
-        data.client = data.clientId;
-        data.user = data.userId;
-    
-        return data;
-      });
-    },
-
-    */
-
-
     getAuthorizationCode: function() {
       return 'works!';
     },
@@ -117,8 +80,8 @@ exports.model = {
         refreshToken: refreshToken.refreshToken,
         refreshTokenExpiresAt: refreshToken.expiresAt,
         scope: accessToken.scope,
-        client: {},
-        user: {}
+        client: {clientId:client.clientId},
+        user: {username:user.username}
       }
     },
     revokeToken : function(receivedToken)
