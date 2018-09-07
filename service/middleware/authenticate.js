@@ -7,6 +7,7 @@ const mongoose = require('mongoose'),
 module.exports = function(options) {
     var options = options || {};
     return function(req,res,next) {
+        console.log(req.headers.authorization);
         var request = new Request({
             headers : {authorization : req.headers.authorization},
             method : req.method,
@@ -19,9 +20,12 @@ module.exports = function(options) {
         oauth.authenticate(request,response,options)
             .then(function(data) {
                 req.user = data.user
+                console.log('Authentication complete for profile :: ' + req.user.profile)
+
                 next()
             })
             .catch(function(err){
+                console.log('err')
                 res.status(err.code || 500).json(err)
             });
     }

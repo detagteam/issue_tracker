@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // Define our client schema
 
-var OAuthClientsSchema =  new mongoose.Schema({
+let OAuthClientsSchema =  new mongoose.Schema({
   clientId: String,
   clientSecret: String,
   clientName : String,

@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // Define our client schema
-var TokenSchema = new mongoose.Schema({
+let TokenSchema = new mongoose.Schema({
     accessToken: { type: String, unique: true },
     refreshToken: { type: String },
     expiresAt: { type: Date },
