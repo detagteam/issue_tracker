@@ -4,7 +4,7 @@ exports.model = User
 // for saving users for method type POST
 exports.createUser = function(req, res) {
     // Create a new instance of the User model
-    var user = new User();
+    let user = new User();
   
     // Set the User properties that came from the POST data
     user.name = req.body.name;
