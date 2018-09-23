@@ -9,4 +9,13 @@ exports.MONGOOSE_OPTIONS = {
     
 }
 
+exports.PROFILE_ACCESS = {
+    "System_Admin":["read","write","delete","modify_all"],
+    "System_Manager":["read","write"]
+}
+
+exports.API_ACCESS_TYPE={
+    "/me":"read"
+}
+
 // %40 -> @ and %21 -> !
