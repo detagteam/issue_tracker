@@ -1,6 +1,5 @@
 const CONFIG = require('./config')
 
-
 const express = require('express'),
     oauthserver = require('oauth2-server'),
     oauth = require('./components/oauthDriver'),
