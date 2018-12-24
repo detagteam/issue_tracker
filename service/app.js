@@ -49,8 +49,8 @@ connection.on('open',function(){
             // Todo: remove unnecessary values in response
             return res.json(token)
           }).catch(function(err){
-            // return res.status(500).json(err);
-            return res.status(500).json(oauthError.setError(err))
+            var returnError = oauthError.setError(err)
+            return res.status(returnError.code || 500).json(returnError)
           })
       });
 
@@ -60,9 +60,9 @@ connection.on('open',function(){
         })
     });
 
+
     app.post('/client/fetch',function(req,res){
         let result = clients.fetchClient(connection,req.body);
-
         res.send({"client": JSON.stringify(result)});
     });
 })

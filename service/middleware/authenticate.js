@@ -22,6 +22,7 @@ module.exports = function(options) {
                 next()
             })
             .catch(function(err){
+                console.log(err)
                 res.status(err.code || 500).json(err)
             });
     }
